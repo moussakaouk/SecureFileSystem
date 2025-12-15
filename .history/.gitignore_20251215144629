@@ -1,0 +1,12 @@
+# Ignoring all keys by default
+keys/*
+# But allowing public key
+!keys/public.pem
+
+# Ignore encrypted and decrypted files
+secure_storage/
+decrypted_files/
+
+# Optional junk
+__pycache__/
+.env
