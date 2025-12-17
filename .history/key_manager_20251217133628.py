@@ -26,7 +26,7 @@ def load_public_key():
         raise FileNotFoundError("Public key not found. Run: python main.py genkeys")
     return RSA.import_key(PUBLIC_KEY_PATH.read_bytes())
 
-# loading private key for decryption
+
 def load_private_key():
     if not PRIVATE_KEY_PATH.is_file():
         raise FileNotFoundError("Private key not found. Run: python main.py genkeys")

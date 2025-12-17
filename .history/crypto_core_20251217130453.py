@@ -95,7 +95,7 @@ def hybrid_decrypt_file(
     out_path = output_dir / original_name
     out_path.write_bytes(plaintext)
 
-    print(f"Decrypted: {out_path}")
+    print(f"decrypted: {out_path}")
 
 
 def hybrid_decrypt_folder(folder_name: str, output_root: str | Path = "decrypted_files"):

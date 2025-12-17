@@ -20,13 +20,13 @@ def generate_rsa_keypair(key_size: int = 2048):
     print(f"Private key: {PRIVATE_KEY_PATH}")
 
 
-# defining a function to load the public key for encryption
+# defining a 
 def load_public_key():
     if not PUBLIC_KEY_PATH.is_file():
         raise FileNotFoundError("Public key not found. Run: python main.py genkeys")
     return RSA.import_key(PUBLIC_KEY_PATH.read_bytes())
 
-# loading private key for decryption
+
 def load_private_key():
     if not PRIVATE_KEY_PATH.is_file():
         raise FileNotFoundError("Private key not found. Run: python main.py genkeys")

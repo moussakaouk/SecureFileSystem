@@ -10,7 +10,7 @@ from crypto_core import (
 )
 from key_manager import generate_rsa_keypair
 
-# instructions for the user
+
 def print_usage():
     print("Usage:")
     print("  python main.py genkeys")

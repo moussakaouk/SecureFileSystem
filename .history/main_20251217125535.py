@@ -10,7 +10,7 @@ from crypto_core import (
 )
 from key_manager import generate_rsa_keypair
 
-# instructions for the user
+
 def print_usage():
     print("Usage:")
     print("  python main.py genkeys")
@@ -25,7 +25,7 @@ def main():
         print_usage()
         sys.exit(1)
 
-    command = sys.argv[1].lower() # extract the command (genkeys, encrypt, decrypt)
+    command = sys.argv[1].lower()
 
     if command == "genkeys":
         generate_rsa_keypair()
@@ -40,9 +40,13 @@ def main():
         p = Path(path_arg)
 
         if p.is_dir():
+            print(f"encrypting: {p}")
             hybrid_encrypt_folder(path_arg)
+            print(f"encrypted: {p}")
         elif p.is_file():
+            print(f"encrypting: {p}")
             hybrid_encrypt_file(path_arg)
+            print(f"encrypted: {p}")
         else:
             print(f"Path not found: {path_arg}")
         return
@@ -69,12 +73,4 @@ def main():
         return
 
     if command == "decrypt_all":
-        output_root = sys.argv[2] if len(sys.argv) >= 3 else "decrypted_files"
-        hybrid_decrypt_all(output_root)
-        return
-
-    print_usage()
-
-
-if __name__ == "__main__":
-    main()
+        output_root =_

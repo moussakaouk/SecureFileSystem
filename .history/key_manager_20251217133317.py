@@ -10,23 +10,22 @@ PRIVATE_KEY_PATH = KEY_DIR / "private.pem"
 
 # defining a function to generate the RSA key pairs of size 2048 bits
 def generate_rsa_keypair(key_size: int = 2048):
-    key = RSA.generate(key_size)  # here happens the math (n, e, and d) that are needed
+    key = RSA.generate(key_size)  
 
-    PRIVATE_KEY_PATH.write_bytes(key.export_key()) # first we generate the private key and then from it the public key
-    PUBLIC_KEY_PATH.write_bytes(key.publickey().export_key()) # public key that is used for encryption
-    # printing the results
+    PRIVATE_KEY_PATH.write_bytes(key.export_key())
+    PUBLIC_KEY_PATH.write_bytes(key.publickey().export_key())
+
     print("RSA key pair generated:")
     print(f"Public key : {PUBLIC_KEY_PATH}")
     print(f"Private key: {PRIVATE_KEY_PATH}")
 
 
-# defining a function to load the public key for encryption
 def load_public_key():
     if not PUBLIC_KEY_PATH.is_file():
         raise FileNotFoundError("Public key not found. Run: python main.py genkeys")
     return RSA.import_key(PUBLIC_KEY_PATH.read_bytes())
 
-# loading private key for decryption
+
 def load_private_key():
     if not PRIVATE_KEY_PATH.is_file():
         raise FileNotFoundError("Private key not found. Run: python main.py genkeys")

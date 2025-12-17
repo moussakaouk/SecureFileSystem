@@ -1,8 +1,7 @@
-from pathlib import Path
-import json
-
 from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.Random import get_random_bytes
+from pathlib import Path
+import json
 
 from key_manager import load_public_key, load_private_key
 
@@ -17,8 +16,6 @@ def hybrid_encrypt_file(input_path: str, target_dir: Path | None = None):
     path = Path(input_path)
     if not path.is_file():
         raise FileNotFoundError(f"File not found: {path}")
-
-    print(f"Encrypting: {path}")
 
     data = path.read_bytes()
     aes_key = get_random_bytes(32)
@@ -44,7 +41,7 @@ def hybrid_encrypt_file(input_path: str, target_dir: Path | None = None):
     }
     meta_file_path.write_text(json.dumps(meta, indent=2))
 
-    print(f"Encrypted: {enc_file_path}")
+    print(f"[+] Encrypted: {path} -> {enc_file_path}")
 
 
 def hybrid_encrypt_folder(folder_path: str):
@@ -57,6 +54,7 @@ def hybrid_encrypt_folder(folder_path: str):
 
     for item in folder.rglob("*"):
         if item.is_file():
+            print(f"\n[+] Encrypting: {item}")
             hybrid_encrypt_file(str(item), target_dir)
 
 
@@ -95,7 +93,7 @@ def hybrid_decrypt_file(
     out_path = output_dir / original_name
     out_path.write_bytes(plaintext)
 
-    print(f"Decrypted: {out_path}")
+    print(f"[+] Decrypted: {base_name} -> {out_path}")
 
 
 def hybrid_decrypt_folder(folder_name: str, output_root: str | Path = "decrypted_files"):
@@ -120,10 +118,13 @@ def hybrid_decrypt_all(output_root: str | Path = "decrypted_files"):
 
     output_root.mkdir(parents=True, exist_ok=True)
 
+    # decrypt single-file encryptions (meta directly in SECURE_DIR)
     for meta_file in SECURE_DIR.glob("*.meta"):
         base_name = meta_file.stem
         hybrid_decrypt_file(base_name, "", output_root)
 
+    # decrypt folder-based encryptions
     for sub in SECURE_DIR.iterdir():
         if sub.is_dir():
             hybrid_decrypt_folder(sub.name, output_root)
+
